@@ -1,2 +1,2 @@
 # MNIST-NeuralNets
-Training a neural network on the MNIST handwritten digit dataset
+Training a neural network on the MNIST handwritten digit dataset using Tensorflow.
