@@ -3,13 +3,14 @@ from tensorflow.examples.tutorials.mnist import input_data
 
 mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
 
+#number of nodes in each of the hidden layers
 n_nodes_hl1 = 1000
 n_nodes_hl2 = 1000
 n_nodes_hl3 = 1000
 n_nodes_hl4 = 1000
 
 n_classes = 10
-batch_size = 100
+batch_size = 64
 
 x = tf.placeholder('float', [None, 784])
 y = tf.placeholder('float')
@@ -25,7 +26,7 @@ def neural_network_model(data):
                       'biases':tf.Variable(tf.random_normal([1, n_nodes_hl3]))}
 
     hidden_4_layer = {'weights':tf.Variable(tf.random_normal([n_nodes_hl3, n_nodes_hl4])),
-                      'biases':tf.Variable(tf.random_normal([1, n_nodes_hl4]))}
+                      'biases':tf.Variable(tf.random_normal([1, n_nodes_hl4]))}                  
 
     output_layer = {'weights':tf.Variable(tf.random_normal([n_nodes_hl4, n_classes])),
                     'biases':tf.Variable(tf.random_normal([1, n_classes]))}
@@ -48,10 +49,11 @@ def neural_network_model(data):
     return output
 
 def train_neural_network(x):
+
     prediction = neural_network_model(x)
     cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits = prediction, labels = y))
-    optimizer = tf.train.AdamOptimizer().minimize(cost) #learning rate default = 0.001
-    nof_epochs = 10
+    optimizer = tf.train.AdamOptimizer(learning_rate = 0.003).minimize(cost) #learning rate default = 0.001
+    nof_epochs = 20
 
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
