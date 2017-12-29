@@ -10,7 +10,7 @@ n_nodes_hl3 = 1000
 n_nodes_hl4 = 1000
 
 n_classes = 10
-batch_size = 64
+batch_size = 128
 
 x = tf.placeholder('float', [None, 784])
 y = tf.placeholder('float')
@@ -51,9 +51,10 @@ def neural_network_model(data):
 def train_neural_network(x):
 
     prediction = neural_network_model(x)
+
     cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits = prediction, labels = y))
     optimizer = tf.train.AdamOptimizer(learning_rate = 0.003).minimize(cost) #learning rate default = 0.001
-    nof_epochs = 20
+    nof_epochs = 30
 
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
