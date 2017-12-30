@@ -16,20 +16,20 @@ x = tf.placeholder('float', [None, 784])
 y = tf.placeholder('float')
 
 def neural_network_model(data):
-    hidden_1_layer = {'weights':tf.Variable(tf.random_normal([784, n_nodes_hl1])),
-                      'biases':tf.Variable(tf.random_normal([1, n_nodes_hl1]))}
+    hidden_1_layer = {'weights':tf.get_variable('weights_1', shape=[784, n_nodes_hl1], initializer=tf.contrib.layers.xavier_initializer()),
+                      'biases':tf.get_variable('biases_1', shape=[1, n_nodes_hl1], initializer=tf.zeros_initializer())}
 
-    hidden_2_layer = {'weights':tf.Variable(tf.random_normal([n_nodes_hl1, n_nodes_hl2])),
-                      'biases':tf.Variable(tf.random_normal([1, n_nodes_hl2]))}
+    hidden_2_layer = {'weights':tf.get_variable('weights_2', shape=[n_nodes_hl1, n_nodes_hl2], initializer=tf.contrib.layers.xavier_initializer()),
+                      'biases':tf.get_variable('biases_2', shape=[1, n_nodes_hl2], initializer=tf.zeros_initializer())}    
 
-    hidden_3_layer = {'weights':tf.Variable(tf.random_normal([n_nodes_hl2, n_nodes_hl3])),
-                      'biases':tf.Variable(tf.random_normal([1, n_nodes_hl3]))}
+    hidden_3_layer = {'weights':tf.get_variable('weights_3', shape=[n_nodes_hl2, n_nodes_hl3], initializer=tf.contrib.layers.xavier_initializer()),
+                      'biases':tf.get_variable('biases_3', shape=[1, n_nodes_hl3], initializer=tf.zeros_initializer())}
 
-    hidden_4_layer = {'weights':tf.Variable(tf.random_normal([n_nodes_hl3, n_nodes_hl4])),
-                      'biases':tf.Variable(tf.random_normal([1, n_nodes_hl4]))}                  
+    hidden_4_layer = {'weights':tf.get_variable('weights_4', shape=[n_nodes_hl3, n_nodes_hl4], initializer=tf.contrib.layers.xavier_initializer()),
+                      'biases':tf.get_variable('biases_4', shape=[1, n_nodes_hl4], initializer=tf.zeros_initializer())}                  
 
-    output_layer = {'weights':tf.Variable(tf.random_normal([n_nodes_hl4, n_classes])),
-                    'biases':tf.Variable(tf.random_normal([1, n_classes]))}
+    output_layer = {'weights':tf.get_variable('weights_5', shape=[n_nodes_hl4, n_classes], initializer=tf.contrib.layers.xavier_initializer()),
+                    'biases':tf.get_variable('biases_5', shape=[1, n_classes], initializer=tf.zeros_initializer())}
 
     
     l1 = tf.add(tf.matmul(data, hidden_1_layer['weights']), hidden_1_layer['biases'])
@@ -54,7 +54,7 @@ def train_neural_network(x):
 
     cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits = prediction, labels = y))
     optimizer = tf.train.AdamOptimizer(learning_rate = 0.003).minimize(cost) #learning rate default = 0.001
-    nof_epochs = 30
+    nof_epochs = 25
 
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
